@@ -1,9 +1,9 @@
 public class LinkedList<T>
 {
-    private static class Node 
+    private static class Node<T> 
     {
         private T data ; 
-        private Node next ; 
+        private Node<T> next ; 
 
         private Node(T data) 
         {
@@ -11,7 +11,7 @@ public class LinkedList<T>
             this.next = null ; 
         }
 
-        private Node(T data, Node next)
+        private Node(T data, Node<T> next)
         {
             this.data = data ; 
             this.next = next ; 
@@ -23,8 +23,8 @@ public class LinkedList<T>
         }
     }
 
-    private Node head ; 
-    private Node tail ; 
+    private Node<T> head ; 
+    private Node<T> tail ; 
 
     public LinkedList()
     {
@@ -36,22 +36,47 @@ public class LinkedList<T>
     {
         if (head == null)
         {
-            head = new Node(data);
+            head = new Node<T>(data);
             tail = head ; 
             return ; 
         }
-        tail.next = new Node(data);
+        tail.next = new Node<T>(data);
         tail = tail.next ; 
     }
 
     public void reverse()
     {
+        if (this.head == null)
+            return ; 
+        this.tail = this.head ; 
         reverse(this.head) ; 
     }
 
-    private void reverse(Node node)
+    /**
+     * Reverse recursive
+     */
+    private void reverse(Node<T> node)
     {
-
+        if (node.next == null)
+        {
+            this.head = node;
+            return ; 
+        }
+        
+        reverse(node.next);
+        node.next.next = node ; 
+        node.next = null ; 
     }
 
+    public void print()
+    {
+        Node<T> temp = this.head ; 
+        while(temp != null)
+        {
+            System.out.print(temp.data);
+            System.out.print(" ");
+            temp = temp.next ; 
+        }
+        System.out.println();
+    }
 }
